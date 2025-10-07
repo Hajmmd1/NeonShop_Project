@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _0_FreamWork.Application;
 using ShopManagment.Application.Contracts.ProdctCategory;
 
 namespace ShopManagment.Application.Contracts.ProductCategory
 {
-    internal interface IProductCategoryApplication
+    public interface IProductCategoryApplication
     {
-        void Create(CreateProductCategory command);
-        void Edit(EditProductCategory command);
-        Domain.ProdctCategoryAgg.ProductCategory GetDetail(long  id);
+        OperationResult Create(CreateProductCategory command);
+        OperationResult Edit(EditProductCategory command);
+       EditProductCategory GetDetail(long  id);
         List<ProductCategoryViewModel> Search(ProductCategorySearchModel searchModel);
     }
 }

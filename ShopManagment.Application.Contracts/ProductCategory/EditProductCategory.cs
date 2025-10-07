@@ -3,7 +3,7 @@
     public class EditProductCategory:CreateProductCategory
     {
 
-        public long Id { get; set; }
+        public int Id { get; set; }
 
     }
 }
