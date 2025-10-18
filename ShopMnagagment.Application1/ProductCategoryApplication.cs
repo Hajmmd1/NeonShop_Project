@@ -12,7 +12,7 @@ using ShopManagment.Domain.ProductCategoryAgg;
 
 namespace ShopMnagagment.Application1
 {
-    internal class ProductCategoryApplication: IProductCategoryApplication
+    public class ProductCategoryApplication: IProductCategoryApplication
     {
         private readonly IProductCategoryRepository _productCategoryRepository;
 
