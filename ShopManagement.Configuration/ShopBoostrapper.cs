@@ -13,7 +13,7 @@ using ShopMnagagment.Application1;
 
 namespace ShopManagement.Configuration
 {
-    public class ShopManagementBoostrapper
+    public class ShopBoostrapper
     {
         public static void Configure(IServiceCollection services,string connectionString)
         {
