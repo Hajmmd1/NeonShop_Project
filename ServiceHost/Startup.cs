@@ -25,7 +25,7 @@ namespace ServiceHost
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString=Configuration.GetConnectionString("NeonShopDb");
-            ShopBoostrapper.Configure(services,"");
+            ShopBoostrapper.Configure(services,connectionString);
             services.AddRazorPages();
         }
 

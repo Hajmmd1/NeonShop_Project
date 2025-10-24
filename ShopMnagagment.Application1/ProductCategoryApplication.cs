@@ -39,7 +39,7 @@ namespace ShopMnagagment.Application1
         {
             var opration = new OperationResult();
             var productCategory = _productCategoryRepository.Get(command.Id);
-            if (productCategory != null)
+            if (productCategory == null)
             {
                 return opration.Failed("رکورد مورد نظر یافت نشد");
                 
@@ -56,7 +56,9 @@ namespace ShopMnagagment.Application1
             return opration.Succedded();
         }
 
-        public EditProductCategory GetDetail(long id)
+       
+
+        public EditProductCategory GetDetails(long id)
         {
             return _productCategoryRepository.GetDetails( id);
         }
