@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using _0_FreamWork.Application;
 using _0_FreamWork.Infrastructure;
-using ShopManagment.Application.Contracts.ProdctCategory;
-using ShopManagment.Domain.ProdctCategoryAgg;
+using ShopManagment.Application.Contracts.ProductCategory;
 
 namespace ShopingManagment.Infarastructure.Efcore.Repository
 {
@@ -18,7 +18,7 @@ namespace ShopingManagment.Infarastructure.Efcore.Repository
             _context = context;
         }
 
-        
+
         public EditProductCategory GetDetails(long id)
         {
             return _context.ProductCategories.Select(x => new EditProductCategory()
@@ -28,27 +28,40 @@ namespace ShopingManagment.Infarastructure.Efcore.Repository
                 Name = x.Name,
                 KeyWords = x.KeyWords,
                 MetaDescription = x.MetaDescription,
-                Picture = x.Picture,
+                //Picture = x.Picture,
                 PictureAlt = x.PictureAlt,
                 PictureTitle = x.PictureTitle,
                 Slug = x.Slug
-            }).FirstOrDefault(x=>x.Id==id);
+            }).FirstOrDefault(x => x.Id == id);
+        }
+
+        public List<ProductCategoryViewModel> GetProductCategories()
+        {
+            return _context.ProductCategories.Select(x => new ProductCategoryViewModel
+            {
+                Id = x.Id,
+                Name = x.Name
+            }).ToList();
+        }
+
+        public string GetSlugById(long id)
+        {
+            return _context.ProductCategories.Select(x => new { x.Id, x.Slug }).FirstOrDefault(x => x.Id == id).Slug;
         }
 
         public List<ProductCategoryViewModel> Search(ProductCategorySearchModel searchModel)
         {
-           var query=_context.ProductCategories.Select(x => new ProductCategoryViewModel()
+            var query = _context.ProductCategories.Select(x => new ProductCategoryViewModel
             {
                 Id = x.Id,
-                Name = x.Name,
                 Picture = x.Picture,
-                CreationDate = x.CreationDate.ToString(),
-               
+                Name = x.Name,
+                CreationDate = x.CreationDate.ToFarsi()
             });
+
             if (!string.IsNullOrWhiteSpace(searchModel.Name))
-            {
                 query = query.Where(x => x.Name.Contains(searchModel.Name));
-            }
+
             return query.OrderByDescending(x => x.Id).ToList();
         }
     }

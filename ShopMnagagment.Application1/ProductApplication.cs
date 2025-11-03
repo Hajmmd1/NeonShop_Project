@@ -1,0 +1,81 @@
+﻿using System.Collections.Generic;
+using _0_Framework.Application;
+using _0_FreamWork.Application;
+using ShopManagment.Application.Contracts.Product;
+using ShopManagment.Domain.ProductAgg;
+using ShopManagment.Domain.ProductCategoryAgg;
+using Microsoft.AspNetCore.Http;
+
+namespace ShopMnagagment.Application1
+{
+    public class ProductApplication : IProductApplication
+    {
+        private readonly IFormUploader _fileUploader;
+        private readonly IProductRepository _productRepository;
+        private readonly IProductCategoryRepository _productCategoryRepository;
+
+        public ProductApplication(IProductRepository productRepository, IFormUploader fileUploader, IProductCategoryRepository productCategoryRepository)
+        {
+            _fileUploader = fileUploader;
+            _productRepository = productRepository;
+            _productCategoryRepository = productCategoryRepository;
+        }
+
+        public OperationResult Create(CreateProduct command)
+        {
+            var operation = new OperationResult();
+            if (_productRepository.Exists(x => x.Name == command.Name))
+                return operation.Failed(ApplicationMessages.DuplicatedRecord);
+
+            var slug = command.Slug.Slugify();
+            var categorySlug = _productCategoryRepository.GetSlugById(command.CategoryId);
+            var path = $"{categorySlug}//{slug}";
+            var picturePath = _fileUploader.Upload(command.Picture, path);
+            var product = new Product(command.Name, command.Code,
+                command.ShortDescription, command.Description, picturePath,
+                command.PictureAlt, command.PictureTitle, command.CategoryId, slug,
+                command.Keywords, command.MetaDescription);
+            _productRepository.Create(product);
+            _productRepository.SaveChanges();
+            return operation.Succedded();
+        }
+
+        public OperationResult Edit(EditProduct command)
+        {
+            var operation = new OperationResult();
+            var product = _productRepository.GetProductWithCategory(command.Id);
+            if (product == null)
+                return operation.Failed(ApplicationMessages.RecordNotFound);
+
+            if (_productRepository.Exists(x => x.Name == command.Name && x.Id != command.Id))
+                return operation.Failed(ApplicationMessages.DuplicatedRecord);
+
+            var slug = command.Slug.Slugify();
+            var path = $"{product.Category.Slug}/{slug}";
+
+            var picturePath = _fileUploader.Upload(command.Picture, path);
+            product.Edit(command.Name, command.Code,
+                command.ShortDescription, command.Description, picturePath,
+                command.PictureAlt, command.PictureTitle, command.CategoryId, slug,
+                command.Keywords, command.MetaDescription);
+
+            _productRepository.SaveChanges();
+            return operation.Succedded();
+        }
+
+        public EditProduct GetDetails(long id)
+        {
+            return _productRepository.GetDetails(id);
+        }
+
+        public List<ProductViewModel> GetProducts()
+        {
+            return _productRepository.GetProducts();
+        }
+
+        public List<ProductViewModel> Search(ProductSearchModel searchModel)
+        {
+            return _productRepository.Search(searchModel);
+        }
+    }
+}

@@ -1,71 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using _0_Framework.Application;
 using _0_FreamWork.Application;
-using ShopManagment.Application.Contracts.ProdctCategory;
 using ShopManagment.Application.Contracts.ProductCategory;
-using ShopManagment.Domain.ProdctCategoryAgg;
 using ShopManagment.Domain.ProductCategoryAgg;
 
 namespace ShopMnagagment.Application1
 {
-    public class ProductCategoryApplication: IProductCategoryApplication
+    public class ProductCategoryApplication : IProductCategoryApplication
     {
-        private readonly IProductCategoryRepository _productCategoryRepository;
+        private readonly IFormUploader _fileUploader;
+        private readonly IProductCategoryRepository _productCategoryRepostory;
 
-        public ProductCategoryApplication(IProductCategoryRepository productCategoryRepository)
+        public ProductCategoryApplication(IProductCategoryRepository productCategoryRepostory, IFormUploader fileUploader)
         {
-            _productCategoryRepository = productCategoryRepository;
+            _fileUploader = fileUploader;
+            _productCategoryRepostory = productCategoryRepostory;
         }
 
         public OperationResult Create(CreateProductCategory command)
         {
-            var opration = new OperationResult();
-            if (_productCategoryRepository.Exists(x=>x.Name==command.Name))
-                return opration.Failed("امکان ثبت رکورد تکراری وجود ندارد");
+            var operation = new OperationResult();
+            if (_productCategoryRepostory.Exists(x => x.Name == command.Name))
+                return operation.Failed(ApplicationMessages.DuplicatedRecord);
 
             var slug = command.Slug.Slugify();
-            var ProductCategory = new ProductCategory(command.Name, command.Description, command.Picture,
-                command.PictureAlt, command.PictureTitle, command.KeyWords, command.MetaDescription,slug);
-            _productCategoryRepository.Create(ProductCategory);
-            _productCategoryRepository.SaveChanges();
-            return opration.Succedded();
+
+            var picturePath = $"{command.Slug}";
+            var pictureName = _fileUploader.Upload(command.Picture, picturePath);
+
+            var productCategory = new ProductCategory(command.Name, command.Description,
+                pictureName, command.PictureAlt, command.PictureTitle, command.KeyWords,
+                command.MetaDescription, slug);
+
+            _productCategoryRepostory.Create(productCategory);
+            _productCategoryRepostory.SaveChanges();
+            return operation.Succedded();
         }
 
         public OperationResult Edit(EditProductCategory command)
         {
-            var opration = new OperationResult();
-            var productCategory = _productCategoryRepository.Get(command.Id);
+            var operation = new OperationResult();
+            var productCategory = _productCategoryRepostory.Get(command.Id);
+
             if (productCategory == null)
-            {
-                return opration.Failed("رکورد مورد نظر یافت نشد");
-                
-            }
+                return operation.Failed(ApplicationMessages.RecordNotFound);
 
-            if (_productCategoryRepository.Exists(x=>x.Name==command.Name&&x.Id!=command.Id))
-            {
-                return opration.Failed("امکان ثبت رکورد تکراری وجود ندارد");
-            }
+            if (_productCategoryRepostory.Exists(x => x.Name == command.Name && x.Id != command.Id))
+                return operation.Failed(ApplicationMessages.DuplicatedRecord);
+
             var slug = command.Slug.Slugify();
-            productCategory.Edit(command.Name, command.Description, command.Picture,
-                command.PictureAlt, command.PictureTitle, command.KeyWords, command.MetaDescription,slug);
-            _productCategoryRepository.SaveChanges();
-            return opration.Succedded();
-        }
 
-       
+            var picturePath = $"{command.Slug}";
+            var fileName = _fileUploader.Upload(command.Picture, picturePath);
+
+            productCategory.Edit(command.Name, command.Description, fileName,
+                command.PictureAlt, command.PictureTitle, command.KeyWords,
+                command.MetaDescription, slug);
+
+            _productCategoryRepostory.SaveChanges();
+            return operation.Succedded();
+        }
 
         public EditProductCategory GetDetails(long id)
         {
-            return _productCategoryRepository.GetDetails( id);
+            return _productCategoryRepostory.GetDetails(id);
+        }
+
+        public List<ProductCategoryViewModel> GetProductCategories()
+        {
+            return _productCategoryRepostory.GetProductCategories();
         }
 
         public List<ProductCategoryViewModel> Search(ProductCategorySearchModel searchModel)
         {
-            return _productCategoryRepository.Search(searchModel);
+            return _productCategoryRepostory.Search(searchModel);
         }
     }
 }

@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\01_ShopQuery\01_ShopQuery.csproj" />
     <ProjectReference Include="..\ShopingManagment.Infarastructure.Efcore\ShopingManagment.Infarastructure.Efcore.csproj" />
     <ProjectReference Include="..\ShopManagment.Application.Contracts\ShopManagment.Application.Contracts.csproj" />
     <ProjectReference Include="..\ShopManagment.Domain\ShopManagment.Domain.csproj" />

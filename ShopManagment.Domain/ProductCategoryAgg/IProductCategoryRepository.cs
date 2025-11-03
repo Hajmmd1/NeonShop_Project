@@ -5,16 +5,17 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using _0_FreamWork.Dimain;
-using ShopManagment.Application.Contracts.ProdctCategory;
-using ShopManagment.Domain.ProdctCategoryAgg;
+using ShopManagment.Application.Contracts.ProductCategory;
 
 namespace ShopManagment.Domain.ProductCategoryAgg
 {
     public interface IProductCategoryRepository:IRepository<long,ProductCategory>
 
     {
-        
+        List<ProductCategoryViewModel> GetProductCategories();
         EditProductCategory GetDetails(long id);
         List<ProductCategoryViewModel> Search(ProductCategorySearchModel searchModel);
+        string GetSlugById(long id);
+       
     }
 }

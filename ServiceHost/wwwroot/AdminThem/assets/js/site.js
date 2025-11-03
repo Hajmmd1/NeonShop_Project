@@ -170,31 +170,31 @@ $(document).on("click",
         }
     });
 
-//function handleAjaxCall(method, url, data) {
-//    if (method === "post") {
-//        $.post(url,
-//            data,
-//            "application/json; charset=utf-8",
-//            "json",
-//            function (data) {
+function handleAjaxCall(method, url, data) {
+    if (method === "post") {
+        $.post(url,
+            data,
+            "application/json; charset=utf-8",
+            "json",
+            function (data) {
 
-//            }).fail(function (error) {
-//                alert("خطایی رخ داده است. لطفا با مدیر سیستم تماس بگیرید.");
-//            });
-//    }
-//}
+            }).fail(function (error) {
+                alert("خطایی رخ داده است. لطفا با مدیر سیستم تماس بگیرید.");
+            });
+    }
+}
 
-//jQuery.validator.addMethod("maxFileSize",
-//    function (value, element, params) {
-//        var size = element.files[0].size;
-//        var maxSize = 3 * 1024 * 1024;
-//        if (size > maxSize)
-//            return false;
-//        else {
-//            return true;
-//        }
-//    });
-//jQuery.validator.unobtrusive.adapters.addBool("maxFileSize");
+jQuery.validator.addMethod("maxFileSize",
+    function (value, element, params) {
+        var size = element.files[0].size;
+        var maxSize = 3 * 1024 * 1024;
+        if (size > maxSize)
+            return false;
+        else {
+            return true;
+        }
+    });
+jQuery.validator.unobtrusive.adapters.addBool("maxFileSize");
 
 //jQuery.validator.addMethod("maxFileSize",
 //    function (value, element, params) {

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using _0_FreamWork.Dimain;
+using ShopManagment.Domain.ProductAgg;
 
-namespace ShopManagment.Domain.ProdctCategoryAgg
+namespace ShopManagment.Domain.ProductCategoryAgg
 {
     public class ProductCategory:EntityBase
     {
@@ -30,6 +27,12 @@ namespace ShopManagment.Domain.ProdctCategoryAgg
         public string KeyWords { get; set; }
         public string MetaDescription { get; private set; }
         public string Slug { get; private set; }
+        public List<Product> Products { get; private set; }
+
+        public ProductCategory()
+        {
+            Products = new List<Product>();
+        }
 
 
         public void Edit(string name, string description, string picture,

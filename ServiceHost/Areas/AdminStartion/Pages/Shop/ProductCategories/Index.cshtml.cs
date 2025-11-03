@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ShopManagment.Application.Contracts.ProdctCategory;
 using ShopManagment.Application.Contracts.ProductCategory;
 
 namespace ServiceHost.Areas.AdminStartion.Pages.Shop.ProductCategories

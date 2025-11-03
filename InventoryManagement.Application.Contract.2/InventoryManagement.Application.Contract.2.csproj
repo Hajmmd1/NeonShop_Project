@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>InventoryManagement.Application.Contract._2</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\0_FreamWork\0_FreamWork.csproj" />
+    <ProjectReference Include="..\ShopManagment.Application.Contracts\ShopManagment.Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

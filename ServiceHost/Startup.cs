@@ -8,6 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using _0_FreamWork.Application;
+using DiscountManagement.Configuration;
+using InventoryManagement.Infrastructure.Configuration;
 using ShopManagement.Configuration;
 
 namespace ServiceHost
@@ -26,6 +29,9 @@ namespace ServiceHost
         {
             var connectionString=Configuration.GetConnectionString("NeonShopDb");
             ShopBoostrapper.Configure(services,connectionString);
+            DiscountManagementBootstrapper.Configure(services, connectionString);
+            InventoryManagementBootstrapper.Configure(services, connectionString);
+            services.AddTransient<IFormUploader, FileUploader>();
             services.AddRazorPages();
         }
 
