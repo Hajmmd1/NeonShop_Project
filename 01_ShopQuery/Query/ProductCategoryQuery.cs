@@ -53,6 +53,9 @@ namespace _01_ShopQuery.Query
                 {
                     Id = x.Id,
                     Name = x.Name,
+                    Picture = x.Picture,
+                    PictureAlt = x.PictureAlt,
+                    PictureTitle = x.PictureTitle,
                     Products = MapProducts(x.Products)
                 }).AsNoTracking().ToList();
 
