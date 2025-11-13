@@ -1,0 +1,19 @@
+﻿:root {
+    /*basic color*/
+    --text-color: #212121;
+    --bg-color: #ffffff;
+    /*theme color*/
+    --neon-primary: #0d6efd;
+    --neon-accent: #ff00c8;
+    /*general*/
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --bs-link-color-rgb: #ffff;
+    /*other*/
+    --font-family-sans-serif: 'Helvetica Neue', Arial, sans-serif;
+    --font-family-monospace: 'Courier New', Courier, monospace;
+    --border-radius: 0.25rem;
+    --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}

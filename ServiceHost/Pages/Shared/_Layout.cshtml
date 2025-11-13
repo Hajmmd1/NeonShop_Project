@@ -16,45 +16,36 @@
     <meta name="keywords" content="@ViewData["keywords"]" />
     <meta name="description" content="@ViewData["metaDescription"]" />
 
-    <link href="~/Theme/assets/css/vendors.css" rel="stylesheet">
+  @*   <link href="~/Theme/assets/css/vendors.css" rel="stylesheet">
     <link href="~/Theme/assets/css/style.css" rel="stylesheet">
-    <link href="~/Theme/assets/css/Custom.css" rel="stylesheet">
+    <link href="~/Theme/assets/css/Custom.css" rel="stylesheet"> *@
+    <link href="~/lib/bootstrap/bootstrap.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet" />
+    <link href="~/assets/css/root.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/assets/css/general.css" rel="stylesheet" asp-append-version="true" />
+
 
 </head>
 
-<body>
+<body data-bs-theme="dark">
 
 @await Component.InvokeAsync("Menu")
-
-@RenderBody()
-
-@await Component.InvokeAsync("Footer")
+    @RenderSection("outOfContainer",false)
+    @RenderBody()
 
 
-<div class="search-overlay" id="search-overlay">
-    <a href="javascript:void(0)" class="close-search-overlay" id="close-search-overlay">
-        <i class="ion-ios-close-empty"></i>
-    </a>
-    <div class="search-form">
-        <form method="get" asp-page="/Search">
-            <input type="search" name="value" id="value" placeholder="هرچه می خواهید در فروشگاه جستجو کنید ...">
-            <button type="submit">
-                <i class="ion-android-search"></i>
-            </button>
-        </form>
-    </div>
-</div>
 
-
-<div id="scroll-top">
-    <span>برو بالا</span><i class="ion-chevron-right"></i><i class="ion-chevron-right"></i>
-</div>
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+<script src="~/lib/bootstrap/bootstap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/js/all.min.js"></script>
+    <script src="~/assets/scripts/general.js" asp-append-version="true"></script>
+@* <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/Theme/assets/js/vendors.js"></script>
 <script src="~/Theme/assets/js/active.js"></script>
 <script src="~/Theme/assets/js/plugins.js"></script>
-<script src="~/Theme/assets/js/custom.js"></script>
+<script src="~/Theme/assets/js/custom.js"></script> *@
 
 </body>
 

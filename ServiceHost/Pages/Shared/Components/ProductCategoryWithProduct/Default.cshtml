@@ -1,111 +1,182 @@
 ﻿@model List<_01_ShopQuery.Contract.ProductCategory.ProductCategoryQueryModel>
 
-<div class="single-row-slider-tab-area section-space">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-title-wrapper text-center section-space--half">
-                    <h2 class="section-title">محصولات ما</h2>
-                    <p class="section-subtitle">
-                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است
-                    </p>
-                </div>
-            </div>
+
+<section class="single-row-slider-tab-area section-space neon-section" aria-labelledby="products-section-title">
+    <header class="row mb-3">
+        <div class="col-12 text-center">
+            <h2 id="products-section-title" class="section-title">محصولات ما</h2>
+            <p class="section-subtitle">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</p>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="tab-slider-wrapper">
-                    <div class="tab-product-navigation">
-                        <div class="nav nav-tabs justify-content-center" id="nav-tab2" role="tablist">
-                            @foreach (var category in Model)
-                            {
-                                <a class="nav-item nav-link @(Model.First() == category ? "active" : "")" id="product-tab-@category.Id" data-toggle="tab"
-                                   href="#product-series-@category.Id" role="tab" aria-selected="true">@category.Name</a>
-                            }
-                        </div>
-                    </div>
-                    <div class="tab-content">
+    </header>
+
+    <!-- Categories swiper -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="category-swiper-wrapper">
+                <div class="swiper category-swiper" aria-label="دسته‌بندی محصولات">
+                    <div class="swiper-wrapper">
                         @foreach (var category in Model)
                         {
-                            <div class="tab-pane fade show @(Model.First() == category ? "active" : "")" id="product-series-@category.Id" role="tabpanel"
-                                 aria-labelledby="product-tab-1">
-                                <div class="single-row-slider-wrapper">
-                                    <div class="ht-slick-slider" data-slick-setting='{
-                                "slidesToShow": 4,
-                                "slidesToScroll": 1,
-                                "arrows": true,
-                                "autoplay": false,
-                                "autoplaySpeed": 5000,
-                                "speed": 1000,
-                                "infinite": true,
-                                "rtl": true,
-                                "prevArrow": {"buttonClass": "slick-prev", "iconClass": "ion-chevron-left" },
-                                "nextArrow": {"buttonClass": "slick-next", "iconClass": "ion-chevron-right" }
-                            }' data-slick-responsive='[
-                                {"breakpoint":1501, "settings": {"slidesToShow": 4} },
-                                {"breakpoint":1199, "settings": {"slidesToShow": 4, "arrows": false} },
-                                {"breakpoint":991, "settings": {"slidesToShow": 3, "arrows": false} },
-                                {"breakpoint":767, "settings": {"slidesToShow": 2, "arrows": false} },
-                                {"breakpoint":575, "settings": {"slidesToShow": 2, "arrows": false} },
-                                {"breakpoint":479, "settings": {"slidesToShow": 1, "arrows": false} }
-                            ]'>
-                                        @foreach (var product in category.Products)
-                                        {
-                                            <div class="col">
-                                                <div class="single-grid-product">
-                                                    <div class="single-grid-product__image">
-                                                        @if (product.HasDiscount)
-                                                        {
-                                                            <div class="single-grid-product__label">
-                                                                <span class="sale">-@product.DiscountRate%</span>
-                                                            </div>
-                                                        }
-                                                        <a asp-page="/Product" asp-route-id="@product.Slug">
-                                                            <img src="~/ProductPictures/@product.Picture" title="@product.PictureTitle" class="img-fluid"
-                                                                 alt="@product.PictureAlt">
-                                                        </a>
-                                                    </div>
-                                                    <div class="single-grid-product__content">
-                                                        <div class="single-grid-product__category-rating">
-                                                            <span class="category">
-                                                                <a asp-page="/ProductCategory" asp-route-id="@category.Slug">@product.Category</a>
-                                                            </span>
-                                                            <span class="rating">
-                                                                <i class="ion-android-star active"></i>
-                                                                <i class="ion-android-star active"></i>
-                                                                <i class="ion-android-star active"></i>
-                                                                <i class="ion-android-star active"></i>
-                                                                <i class="ion-android-star-outline"></i>
-                                                            </span>
-                                                        </div>
-
-                                                        <h3 class="single-grid-product__title">
-                                                            <a asp-page="/Product" asp-route-id="@product.Slug">
-                                                                @product.Name
-                                                            </a>
-                                                        </h3>
-                                                        <p class="single-grid-product__price">
-                                                            @if (product.HasDiscount)
-                                                            {
-                                                                <span class="discounted-price">@product.PriceWithDiscount تومان</span>
-                                                                <span class="main-price discounted">@product.Price تومان</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="main-price">@product.Price تومان</span>
-                                                            }
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
+                            @if (category.Products.Count > 0 && category.Products.Any())
+                            {
+                                <div class="swiper-slide" role="button" tabindex="0" data-target="#product-series-@category.Id" aria-controls="product-series-@category.Id" title="@category.Name">
+                                    <a href="#product-series-@category.Id" class="d-flex flex-column align-items-center text-decoration-none">
+                                        <span class="category-circle" aria-hidden="true">
+                                            <img src="/ProductPictures/@category.Picture" alt="@category.PictureAlt" title="@category.PictureTitle" />
+                                        </span>
+                                        <span class="category-title">@category.Name</span>
+                                    </a>
                                 </div>
-                            </div>
+                            }
+
                         }
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Product groups -->
+    <div class="row">
+        <div class="col-12">
+            <main>
+                @foreach (var category in Model)
+                {
+                    <section id="product-series-@category.Id" class="product-group" aria-labelledby="group-title-@category.Id">
+                        <div class="product-group__title mb-3">
+                            <h3 id="group-title-@category.Id">@category.Name</h3>
+                            <div class="title-underline" aria-hidden="true"></div>
+                            @if (!string.IsNullOrWhiteSpace(category.Description))
+                            {
+                                <small class="d-block mt-2 text-muted" style="color:#9ccfe9">@category.Description</small>
+                            }
+                        </div>
+
+                        <div class="row">
+                            @if (category.Products.Count > 0 && category.Products.Any())
+                            {
+                                @foreach (var product in category.Products)
+                                {
+                                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                                        <article class="product-card-horizontal d-flex align-items-center" itemscope>
+                                            <a asp-page="/Product" asp-route-id="@product.Slug" class="product-image-wrapper">
+                                                <img src="~/ProductPictures/@product.Picture"
+                                                     alt="@product.PictureAlt"
+                                                     title="@product.PictureTitle"
+                                                     itemprop="image" />
+                                            </a>
+
+                                            <div class="product-info flex-grow-1">
+                                                <a asp-page="/Product" asp-route-id="@product.Slug" class="text-decoration-none">
+                                                    <h4 class="product-name" itemprop="name">@product.Name</h4>
+                                                </a>
+
+                                                <div class="product-price" itemprop="offers" itemscope>
+                                                    @if (product.HasDiscount)
+                                                    {
+                                                        <span class="discounted-price" itemprop="price">@product.PriceWithDiscount تومان</span>
+                                                        <span class="main-price discounted">@product.Price تومان</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="main-price" itemprop="price">@product.Price تومان</span>
+                                                    }
+                                                </div>
+
+                                                <button class="btn-cart">
+                                                    <i class="fas fa-shopping-cart"></i> افزودن به سبد
+                                                </button>
+                                            </div>
+                                        </article>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </section>
+
+                }
+            </main>
+        </div>
+    </div>
+</section>
+<script>
+    // Initialize Swiper
+    const categorySwiper = new Swiper('.category-swiper', {
+      slidesPerView: 'auto',
+      spaceBetween: 12,
+      centeredSlides: false,
+      loop: false,
+      breakpoints: {
+        0: { slidesPerView: 3 },
+        576: { slidesPerView: 4 },
+        768: { slidesPerView: 6 },
+        992: { slidesPerView: 8 },
+        1200: { slidesPerView: 10 }
+      },
+      a11y: {
+        enabled: true
+      }
+    });
+
+    // Smooth scroll when clicking category link (works for internal anchor)
+    $(document).on('click', '.category-swiper a[href^="#"]', function(e){
+      e.preventDefault();
+      var target = $($(this).attr('href'));
+      if (target.length){
+        // calculate offset (if you have fixed header, subtract its height)
+        var headerOffset = 90; // adjust if your layout has a fixed topbar
+        var offsetTop = target.offset().top - headerOffset;
+        $('html, body').animate({ scrollTop: offsetTop }, 550);
+        // set active slide visually in swiper
+        var slide = $(this).closest('.swiper-slide')[0];
+        if(slide){
+          categorySwiper.slideTo(categorySwiper.slides.indexOf(slide), 300);
+          // add focus for accessibility
+          $(slide).focus();
+        }
+      }
+    });
+
+    // If user navigates with keyboard on swiper slides -> follow to section with Enter/Space
+    $(document).on('keydown', '.category-swiper .swiper-slide', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        $(this).find('a')[0].click();
+      }
+    });
+
+    // Optional: highlight active category based on scroll position
+    var sectionOffsets = [];
+    function computeOffsets(){
+      sectionOffsets = [];
+      $('[id^="product-series-"]').each(function(){
+        sectionOffsets.push({
+          id: this.id,
+          top: $(this).offset().top
+        });
+      });
+    }
+    computeOffsets();
+    $(window).on('resize', computeOffsets);
+
+    $(window).on('scroll', function(){
+      var scroll = $(window).scrollTop() + 120; // offset for header-like elements
+      for(var i = sectionOffsets.length-1; i>=0; i--){
+        if(scroll >= sectionOffsets[i].top){
+          var id = sectionOffsets[i].id;
+          // find corresponding slide and make it active visually
+          var $slide = $('.category-swiper .swiper-slide').filter(function(){
+            return $(this).find('a').attr('href') === "#" + id;
+          }).first();
+          if($slide.length){
+            var idx = categorySwiper.slides.indexOf($slide[0]);
+            if(typeof idx === 'number' && idx >= 0){
+              categorySwiper.slideTo(idx, 250);
+            }
+          }
+          break;
+        }
+      }
+    });
+</script>
