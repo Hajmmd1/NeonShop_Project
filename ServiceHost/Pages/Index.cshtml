@@ -3,15 +3,47 @@
 @{
     ViewData["Title"] = "پروژه دوره MVC";
 }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@300..700&display=swap" rel="stylesheet">
+<div class="landing-hero-section row align-items-center position-relative">
+    <div class="col-12 landing-hero-child  col-md-6 p-4">
+        <div>
+            <h2 class="fs-2">
+                ایوان نئون | تابلو نئون | چنلیوم
+            </h2>
+            <p class="fs-5">
+                اینجا هر تابلویی که خواستی رو برات میسازیم ولی
+                تخصص اصلیمون نئونه
+                مناسب برای خانه، محل کار و تبلیغات
+                یه سر به هایلایتای پیج بزن
+            </p>
+        </div>
 
-@await Component.InvokeAsync("Slide")
 
-@await Component.InvokeAsync("ProductCategory")
+    </div>
+    <div class="col-12  landing-hero-child col-md-6 lhc-neon-name p-5">
+        <h1 class="neon-text">
+            ایوان نئون
+        </h1>
+    </div>
+    <div id="NetLandingBg" class="h-100 w-100 position-absolute top-0 right-0">
+    </div>
+</div>
+<div class="container-md">
+    @await Component.InvokeAsync("Slide")
+    @await Component.InvokeAsync("ProductCategoryWithProduct")
+</div>
 
-@await Component.InvokeAsync("ProductCategoryWithProduct")
+@await Component.InvokeAsync("Footer")
+@* @await Component.InvokeAsync("ProductCategory") *@
 
-@await Component.InvokeAsync("LatestArrivals")
 
+@* @await Component.InvokeAsync("LatestArrivals") *@
+
+@* 
 <!--====================  banner hover area ====================-->
 <div class="banner-hover-area section-space">
     <div class="container">
@@ -158,4 +190,22 @@
             </div>
         </div>
     </div>
-</div>
+</div> *@
+<script src="~/lib/animationalBackground/three.min.js"></script>
+<script src="~/lib/animationalBackground/net.min.js"></script>
+<script>
+    VANTA.NET({
+      el: "#NetLandingBg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 0.5,
+      color: "#00ffff",
+      backgroundColor: "#212529",
+      points: 20.00,
+      maxDistance: 21.00
+    })
+</script>
