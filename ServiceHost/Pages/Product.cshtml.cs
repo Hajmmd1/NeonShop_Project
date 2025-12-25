@@ -1,4 +1,6 @@
 using _01_ShopQuery.Contract.Product;
+using CM.Application.Contract;
+using CM.Infra.EfCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -6,14 +8,14 @@ namespace ServiceHost.Pages
 {
     public class ProductModel : PageModel
     {
-        public ProductQueryModel Product;
+        private readonly ICommentApplication _commentApplication;
         private readonly IProductQuery _productQuery;
-        
+        public ProductQueryModel Product;
 
-        public ProductModel(IProductQuery productQuery)
+        public ProductModel(IProductQuery productQuery, ICommentApplication commentApplication)
         {
             _productQuery = productQuery;
-           
+            _commentApplication = commentApplication;
         }
 
         public void OnGet(string id)
@@ -21,8 +23,10 @@ namespace ServiceHost.Pages
             Product = _productQuery.GetProductDetails(id);
         }
 
-        public IActionResult OnPost( string productSlug)
+        public IActionResult OnPost(AddComment command, string productSlug)
         {
+            command.Type = CommentType.Product;
+            var result = _commentApplication.Add(command);
             return RedirectToPage("/Product", new { Id = productSlug });
         }
     }

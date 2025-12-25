@@ -1,30 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using _0_FreamWork.Application;
+﻿using _0_FreamWork.Application;
+using _01_ShopQuery.Contract.Comment;
 using _01_ShopQuery.Contract.Product;
+using CM.Infra.EfCore;
 using DiscountManagement.Infrastructure.EFCore;
 using InventoryMangement.Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
 using ShopingManagment.Infarastructure.Efcore;
 using ShopManagment.Domain.ProductPictureAgg;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace _01_ShopQuery.Query
 {
     public class ProductQuery : IProductQuery
     {
+        private readonly CommentContext _commentContext;
         private readonly ShopContext _context;
         private readonly InventoryContext _inventoryContext;
         private readonly DiscountContext _discountContext;
-       
+
 
         public ProductQuery(ShopContext context, InventoryContext inventoryContext,
-            DiscountContext discountContext)
+        DiscountContext discountContext, CommentContext commentContext)
         {
             _context = context;
             _discountContext = discountContext;
             _inventoryContext = inventoryContext;
-          
+            _commentContext = commentContext;
         }
 
         public ProductQueryModel GetProductDetails(string slug)
@@ -77,7 +80,21 @@ namespace _01_ShopQuery.Query
                     product.PriceWithDiscount = (price - discountAmount).ToMoney();
                 }
             }
-
+            product.Comments = _commentContext.Comments
+          .Where(x => !x.IsCanceled)
+          .Where(x => x.IsConfirmed)
+          .Where(x => x.Type == CommentType.Product)
+          .Where(x => x.OwnerRecordId == product.Id)
+          .Select(x => new CommentQueryModel
+          {
+              Id = x.Id,
+              Message = x.Message,
+              Name = x.Name,
+              Type = x.Type,
+              CreationDate = x.CreationDate.ToFarsi()
+          })
+          .OrderByDescending(x => x.Id)
+          .ToList();
 
             return product;
         }
